@@ -27,31 +27,32 @@ class UserInfo:
 class FoodPantryApp:
     def __init__(self, root):
         self.root = root
-        self.root.geometry("1500x1300")
+        self.root.geometry("2560x1440")
         self.root.title("CCS Food Pantry Request System")
-        self.root.configure(bg="dark blue") 
-
+        self.bg_image = PhotoImage(file=r"ccshome.png")
+        tk.Label(self.root, image=self.bg_image).place(relheight=1, relwidth=1)
+        
         # Cart Manager Instance
         self.cart_manager = CartManager()
 
         # Main Label
-        tk.Label(root, text="CCS Food Pantry Request System", bg="lime green", fg="white", font=('Comic Sans MS', 35)).pack(padx=250, pady=250)
+        tk.Label(root, text="CCS Food Pantry Request System", bg="white", fg="DarkCyan", font=('Comic Sans MS', 50)).pack(padx=250, pady=250)
 
         # Main Button
-        tk.Button(root, text="Open Selection", bg="lime green", fg="white", font=('Comic Sans MS', 25), command=self.open_new_window).pack()
+        tk.Button(root, text="Open Selection", bg="white", fg="DarkCyan", font=('Comic Sans MS', 35), command=self.open_new_window).pack(padx=250, pady=250)
 
     def open_new_window(self):
         self.root.destroy()
         top = tk.Tk()
-        top.geometry("1500x1300")
+        top.geometry("2560x1440")
         top.title("Food Selection")
 
         # Background image
-        self.bg_image = PhotoImage(file=r"veggies2.png")
+        self.bg_image = PhotoImage(file=r"cans.png")
         tk.Label(top, image=self.bg_image).place(relheight=1, relwidth=1)
 
         # Item Selection Label
-        tk.Label(top, text="Select Your Items", bg="lime green", fg="white", font=('Comic Sans MS', 45)).pack(padx=155, pady=155)
+        tk.Label(top, text="Select Your Items:", bg="white", fg="DarkCyan", font=('Comic Sans MS', 45)).pack(padx=155, pady=100)
 
         # Categories List (Using List)
         categories = [
@@ -65,22 +66,24 @@ class FoodPantryApp:
 
         buttonframe = tk.LabelFrame(top)
         for i, category in enumerate(categories):
-            btn = tk.Button(buttonframe, text=f"{category}", font=('Arial', 25), 
+            btn = tk.Button(buttonframe, text=f"{category}", font=('Arial', 37), 
                             command=lambda cat=category: self.add_to_cart(cat))
             btn.grid(row=i//3, column=i%3, sticky=tk.W+tk.E)
-            btn.config(bg="lime green", fg="white")
+            btn.config(bg="white", fg="DarkCyan")
 
-        buttonframe.pack(padx=50, pady=50, expand=True)
+        buttonframe.pack(padx=70, pady=100)
+
+
 
         # Cart Display
-        self.cart_listbox = tk.Listbox(top, height=6, font=('Arial', 15))
-        self.cart_listbox.pack(pady=10)
+        self.cart_listbox = tk.Listbox(top, height=10, width=25, justify='center', font=('Arial', 22))
+        self.cart_listbox.pack(pady=30)
 
         # Buttons
-        tk.Button(top, text="Empty Cart", bg="lime green", fg="white", font=('Comic Sans MS', 20), 
-                  command=self.clear_cart).pack()
-        tk.Button(top, text="Checkout", bg="lime green", fg="white", font=('Comic Sans MS', 25), 
-                  command=lambda: self.checkout(top)).pack()
+        tk.Button(top, text="Empty Cart", bg="white", fg="DarkCyan", font=('Comic Sans MS', 25), 
+                  command=self.clear_cart).pack(pady=10)
+        tk.Button(top, text="Checkout", bg="white", fg="DarkCyan", font=('Comic Sans MS', 28), 
+                  command=lambda: self.checkout(top)).pack(pady=10)
 
     def add_to_cart(self, item):
         self.cart_manager.add_to_cart(item)
@@ -102,26 +105,31 @@ class FoodPantryApp:
 
         top.destroy()
         checkout_window = tk.Tk()
-        checkout_window.geometry("1500x1300")
+        checkout_window.geometry("2560x1440")
         checkout_window.title("Checkout")
-        checkout_window.configure(bg="dark blue")
+        checkout_window.configure(bg="DarkCyan")
 
         # Input Fields
-        tk.Label(checkout_window, text="Name:", bg="lime green", fg="white", font=('Comic Sans MS', 30)).pack()
-        name_entry = tk.Entry(checkout_window, width=30)
-        name_entry.pack(pady=20)
+        tk.Label(checkout_window, text="First and Last Name:", bg="white", fg="DarkCyan", font=('Comic Sans MS', 30)).pack()
+        name_entry = tk.Entry(checkout_window, width=100)
+        name_entry.pack(pady=50, ipady=10)
 
-        tk.Label(checkout_window, text="Phone Number:", bg="lime green", fg="white", font=('Comic Sans MS', 30)).pack()
-        phone_entry = tk.Entry(checkout_window, width=30)
-        phone_entry.pack(pady=20)
+        tk.Label(checkout_window, text="Phone Number:", bg="white", fg="DarkCyan", font=('Comic Sans MS', 30)).pack()
+        phone_entry = tk.Entry(checkout_window, width=100)
+        phone_entry.pack(pady=50, ipady=10)
 
-        tk.Label(checkout_window, text="Email:", bg="lime green", fg="white", font=('Comic Sans MS', 30)).pack()
-        email_entry = tk.Entry(checkout_window, width=30)
-        email_entry.pack(pady=20)
+        tk.Label(checkout_window, text="Email:", bg="white", fg="DarkCyan", font=('Comic Sans MS', 30)).pack()
+        email_entry = tk.Entry(checkout_window, width=100)
+        email_entry.pack(pady=50, ipady=10)
 
-        tk.Label(checkout_window, text="Number of Family Members:", bg="lime green", fg="white", font=('Comic Sans MS', 30)).pack()
-        family_entry = tk.Entry(checkout_window, width=30)
-        family_entry.pack(pady=20)
+        tk.Label(checkout_window, text="Number of Family Members:", bg="white", fg="DarkCyan", font=('Comic Sans MS', 30)).pack()
+        family_entry = tk.Entry(checkout_window, width=100)
+        family_entry.pack(pady=50, ipady=10)
+        
+        
+        tk.Label(checkout_window, text="Additional Information:", bg="white", fg="DarkCyan", font=('Comic Sans MS', 30)).pack()
+        family_entry = tk.Entry(checkout_window, width=100)
+        family_entry.pack(pady=50, ipady=10)
 
         def place_order():
             if not all((name_entry.get(), phone_entry.get(), email_entry.get(), family_entry.get())):
@@ -137,7 +145,7 @@ class FoodPantryApp:
                                                 f"Family Members: {user.details[3]}")
             checkout_window.destroy()
 
-        tk.Button(checkout_window, text="Place Order", bg="lime green", fg="white", font=('Comic Sans MS', 20), 
+        tk.Button(checkout_window, text="Place Order", bg="white", fg="DarkCyan", font=('Comic Sans MS', 20), 
                   command=place_order).pack()
 
         tk.Button(checkout_window, text="Exit", bg="white", fg="red", font=('Comic Sans MS', 20), 
